@@ -16,3 +16,13 @@ chrome.runtime.onInstalled.addListener(() => {
         }]);
     });
 });
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    let isResponseAsync = false;
+
+    if (request.popupMounted) {
+        console.log('Popup.tsx has mounted.');
+    }
+
+    return isResponseAsync;
+});
