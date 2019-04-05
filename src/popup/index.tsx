@@ -7,6 +7,6 @@ import Popup from './Popup';
 chrome.tabs.query({ active: true, currentWindow: true }, tab => {
     ReactDOM.render(
         <Popup/>,
-        document.getElementById('popup')
+        document.getElementById('root')
     );
 });

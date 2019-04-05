@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {cn} from '@bem-react/classname';
+
 
 import {
     AppProps,
@@ -6,6 +8,9 @@ import {
 } from '../types';
 
 import './Popup.scss';
+
+
+const b = cn('popup');
 
 
 export default class Popup extends React.Component<AppProps, AppState> {
@@ -19,7 +24,7 @@ export default class Popup extends React.Component<AppProps, AppState> {
 
     render() {
         return (
-            <div className="popup">
+            <div className={b()}>
                 Hello, world
             </div>
         )
