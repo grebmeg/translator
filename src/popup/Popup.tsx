@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {cn} from '@bem-react/classname';
-
+import {Input} from 'antd';
 
 import {
     AppProps,
@@ -11,6 +11,7 @@ import './Popup.scss';
 
 
 const b = cn('popup');
+const Search = Input.Search;
 
 
 export default class Popup extends React.Component<AppProps, AppState> {
@@ -25,7 +26,11 @@ export default class Popup extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div className={b()}>
-                Hello, world
+                <Search
+                    placeholder="input search text"
+                    onSearch={value => console.log(value)}
+                    enterButton
+                />
             </div>
         )
     }
