@@ -8,15 +8,13 @@ export default function withI18n(WrappedComponent) {
     return injectIntl(function WithI18n(props: InputProps) {
         const {
             intl,
-            formattedMessage,
+            placeholder,
             ...restProps
         } = props;
 
         return (
             <WrappedComponent
-                placeholder={
-                    intl.formatMessage(formattedMessage)
-                }
+                placeholder={intl.formatMessage(placeholder)}
                 {...restProps}
             />
         )

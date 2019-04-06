@@ -6,5 +6,9 @@ export interface FormattedMessage {
 
 export interface InputProps {
     intl: any;
-    formattedMessage: FormattedMessage;
+    placeholder: FormattedMessage;
+}
+
+export interface PopupState {
+    isLoadingTranslation: boolean;
 }

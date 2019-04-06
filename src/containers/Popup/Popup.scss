@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+body {
+  margin: 0;
+}
+
+.popup {
+  width: 350px;
+  padding: 10px;
+
+  &__translation {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

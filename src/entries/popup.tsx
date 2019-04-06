@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {IntlProvider} from 'react-intl';
 
-import Popup from './Popup';
+import Popup from '../containers/Popup/Popup';
+
 import messagesEn from '../translations/en';
 import messagesRu from '../translations/ru';
 
