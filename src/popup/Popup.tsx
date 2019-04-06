@@ -7,6 +7,7 @@ import {
     AppState
 } from '../types';
 
+import i18n from '../constants/i18n';
 import './Popup.scss';
 
 
@@ -23,12 +24,24 @@ export default class Popup extends React.Component<AppProps, AppState> {
         chrome.runtime.sendMessage({ popupMounted: true });
     }
 
+    state = {
+        search: '',
+    };
+    
+    changeSearch = (search) => {
+        console.log('search >>> ', search);
+        
+        this.setState({
+            search
+        });
+    };
+
     render() {
         return (
             <div className={b()}>
                 <Search
-                    placeholder="input search text"
-                    onSearch={value => console.log(value)}
+                    placeholder={i18n('value_placeholder-search')}
+                    onSearch={this.changeSearch}
                     enterButton
                 />
             </div>
