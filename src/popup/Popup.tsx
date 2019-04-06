@@ -2,46 +2,34 @@ import * as React from 'react';
 import {cn} from '@bem-react/classname';
 import {Input} from 'antd';
 
-import {
-    AppProps,
-    AppState
-} from '../types';
+import withI18n from '../hocs/withI18n';
 
-import i18n from '../constants/i18n';
 import './Popup.scss';
 
 
 const b = cn('popup');
+
 const Search = Input.Search;
+const SearchWithI18n = withI18n(Search);
 
 
-export default class Popup extends React.Component<AppProps, AppState> {
-    constructor(props: AppProps, state: AppState) {
-        super(props, state);
-    }
-
+export default class Popup extends React.Component {
     componentDidMount() {
         chrome.runtime.sendMessage({ popupMounted: true });
     }
 
-    state = {
-        search: '',
-    };
-    
-    changeSearch = (search) => {
-        console.log('search >>> ', search);
-        
-        this.setState({
-            search
-        });
+    findTranslation = (searchText) => {
+        console.log('searchText >>> ', searchText);
     };
 
     render() {
         return (
             <div className={b()}>
-                <Search
-                    placeholder={i18n('value_placeholder-search')}
-                    onSearch={this.changeSearch}
+                <SearchWithI18n
+                    formattedMessage={{
+                        id: "popup.value_search-translation-input"
+                    }}
+                    onSearch={this.findTranslation}
                     enterButton
                 />
             </div>
