@@ -11,4 +11,11 @@ export interface InputProps {
 
 export interface PopupState {
     isLoadingTranslation: boolean;
+    textBeTranslated: string;
+    service: string;
+    translation: any;
+}
+
+export interface TranslationProps {
+    isLoading: boolean;
 }

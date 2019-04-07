@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {
     Input,
-    Spin,
     Select,
     Button,
     Row,
     Col
 } from 'antd';
+import axios from 'axios';
 
 import cn from '../../libs/cn';
 import withI18n from '../../hocs/withI18n';
 import {PopupState} from '../../types';
+import Translation from '../../components/Translation/Translation';
 
 import './Popup.scss';
 
@@ -25,6 +26,22 @@ const selectAfter = (
     </Select>
 );
 
+const getYandexTranslateRequestConfig = ({
+    lang = 'en-ru',
+    text
+}) => ({
+    method: 'get',
+    baseURL: 'https://translate.yandex.net',
+    url: '/api/v1.5/tr.json/translate',
+    params: {
+        format: 'plain',
+        key: '',
+        lang,
+        text
+    }
+});
+
+
 
 export default class Popup extends React.Component<null, PopupState> {
     componentDidMount() {
@@ -32,15 +49,59 @@ export default class Popup extends React.Component<null, PopupState> {
     }
 
     state = {
-        isLoadingTranslation: true
+        isLoadingTranslation: true,
+        service: 'yandex',
+        translation: '',
+        textBeTranslated: ''
     };
 
-    findTranslation = (searchText) => {
-        console.log('searchText >>> ', searchText);
+    getTranslateRequest = ({service}) => {
+        switch (service) {
+            case 'yandex':
+            default:
+                return getYandexTranslateRequestConfig;
+        }
+    };
+
+    getTranslateRequestConfig = () => {
+        const {
+            service,
+            textBeTranslated
+        } = this.state;
+
+        const getTranslateRequestConfig = this.getTranslateRequest({service});
+        return getTranslateRequestConfig({
+            text: textBeTranslated
+        });
+    };
+
+    fetchTranslation = async () => {
+        const translateRequestConfig = this.getTranslateRequestConfig();
+
+        return await axios(translateRequestConfig);
+    };
+
+    getTranslation = async () => {
+        const translation = this.fetchTranslation();
+
+        this.setState({
+            translation
+        })
+    };
+
+    changeTextBeTranslated = (e) => {
+        const {value} = e.target;
+
+        this.setState({
+            textBeTranslated: value
+        });
     };
 
     render() {
-        const {isLoadingTranslation} = this.state;
+        const {
+            isLoadingTranslation,
+            textBeTranslated
+        } = this.state;
 
         return (
             <div className={b()}>
@@ -51,23 +112,22 @@ export default class Popup extends React.Component<null, PopupState> {
                             placeholder={{
                                 id: "popup.value_search-translation-input"
                             }}
+                            value={textBeTranslated}
+                            onPressEnter={this.getTranslation}
+                            onChange={this.changeTextBeTranslated}
                         />
                     </Col>
                     <Col span={4}>
                         <Button
                             type="primary"
                             icon="search"
-                            onClick={this.findTranslation}
+                            onClick={this.getTranslation}
                         />
                     </Col>
                 </Row>
-                <div className={b('translation')}>
-                    {
-                        isLoadingTranslation ?
-                            (<Spin size="large"/>) :
-                            null
-                    }
-                </div>
+                <Translation
+                    isLoading={isLoadingTranslation}
+                />
             </div>
         )
     }
