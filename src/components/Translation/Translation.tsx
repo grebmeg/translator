@@ -4,6 +4,8 @@ import {Spin} from "antd";
 import cn from '../../libs/cn';
 import {TranslationProps} from '../../types';
 
+import TranslationYandex from '../TranslationYandex/TranslationYandex';
+
 import './Translation.scss';
 
 
@@ -11,13 +13,21 @@ const b = cn('translation');
 
 
 function Translation(props: TranslationProps) {
-    const {isLoading} = props;
+    const {
+        isLoading,
+        translation
+    } = props;
+
     return (
         <div className={b()}>
             {
                 isLoading ?
                     (<Spin size="large"/>) :
-                    null
+                    (
+                        <TranslationYandex
+                            translation={translation}
+                        />
+                    )
             }
         </div>
     );

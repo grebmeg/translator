@@ -13,9 +13,16 @@ export interface PopupState {
     isLoadingTranslation: boolean;
     textBeTranslated: string;
     service: string;
+    initialRender: boolean;
     translation: any;
 }
 
 export interface TranslationProps {
     isLoading: boolean;
+    service: string;
+    translation: any;
+}
+
+export interface TranslationYandexProps {
+    translation: any;
 }

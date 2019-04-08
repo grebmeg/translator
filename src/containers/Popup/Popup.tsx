@@ -38,7 +38,8 @@ const getYandexTranslateRequestConfig = ({
         key: '',
         lang,
         text
-    }
+    },
+    transformResponse: [(data) => JSON.parse(data)],
 });
 
 
@@ -49,10 +50,11 @@ export default class Popup extends React.Component<null, PopupState> {
     }
 
     state = {
-        isLoadingTranslation: true,
+        isLoadingTranslation: false,
         service: 'yandex',
         translation: '',
-        textBeTranslated: ''
+        textBeTranslated: '',
+        initialRender: true
     };
 
     getTranslateRequest = ({service}) => {
@@ -70,19 +72,49 @@ export default class Popup extends React.Component<null, PopupState> {
         } = this.state;
 
         const getTranslateRequestConfig = this.getTranslateRequest({service});
+
         return getTranslateRequestConfig({
             text: textBeTranslated
         });
     };
 
+    enableLoader = () => {
+        this.setState({
+            isLoadingTranslation: true
+        });
+    };
+
+    disableLoader = () => {
+        this.setState({
+            isLoadingTranslation: false
+        });
+    };
+
+    disableInitialRender = () => {
+        const {initialRender} = this.state;
+
+        if (initialRender) {
+            this.setState({
+                initialRender: false
+            });
+        }
+    };
+
     fetchTranslation = async () => {
         const translateRequestConfig = this.getTranslateRequestConfig();
 
-        return await axios(translateRequestConfig);
+        const response = await axios(translateRequestConfig);
+
+        return response.data;
     };
 
     getTranslation = async () => {
-        const translation = this.fetchTranslation();
+        this.disableInitialRender();
+        this.enableLoader();
+
+        const translation = await this.fetchTranslation();
+
+        this.disableLoader();
 
         this.setState({
             translation
@@ -100,7 +132,10 @@ export default class Popup extends React.Component<null, PopupState> {
     render() {
         const {
             isLoadingTranslation,
-            textBeTranslated
+            textBeTranslated,
+            service,
+            initialRender,
+            translation
         } = this.state;
 
         return (
@@ -125,9 +160,15 @@ export default class Popup extends React.Component<null, PopupState> {
                         />
                     </Col>
                 </Row>
-                <Translation
-                    isLoading={isLoadingTranslation}
-                />
+                {
+                    !initialRender && (
+                        <Translation
+                            isLoading={isLoadingTranslation}
+                            service={service}
+                            translation={translation}
+                        />
+                    )
+                }
             </div>
         )
     }
