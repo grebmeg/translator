@@ -6,7 +6,6 @@ import {
     Row,
     Col
 } from 'antd';
-import axios from 'axios';
 
 import cn from '../../libs/cn';
 import withI18n from '../../hocs/withI18n';
@@ -26,23 +25,6 @@ const selectAfter = (
     </Select>
 );
 
-const getYandexTranslateRequestConfig = ({
-    lang = 'en-ru',
-    text
-}) => ({
-    method: 'get',
-    baseURL: 'https://translate.yandex.net',
-    url: '/api/v1.5/tr.json/translate',
-    params: {
-        format: 'plain',
-        key: '',
-        lang,
-        text
-    },
-    transformResponse: [(data) => JSON.parse(data)],
-});
-
-
 
 export default class Popup extends React.Component<null, PopupState> {
     componentDidMount() {
@@ -55,27 +37,6 @@ export default class Popup extends React.Component<null, PopupState> {
         translation: '',
         textBeTranslated: '',
         initialRender: true
-    };
-
-    getTranslateRequest = ({service}) => {
-        switch (service) {
-            case 'yandex':
-            default:
-                return getYandexTranslateRequestConfig;
-        }
-    };
-
-    getTranslateRequestConfig = () => {
-        const {
-            service,
-            textBeTranslated
-        } = this.state;
-
-        const getTranslateRequestConfig = this.getTranslateRequest({service});
-
-        return getTranslateRequestConfig({
-            text: textBeTranslated
-        });
     };
 
     enableLoader = () => {
@@ -101,11 +62,8 @@ export default class Popup extends React.Component<null, PopupState> {
     };
 
     fetchTranslation = async () => {
-        const translateRequestConfig = this.getTranslateRequestConfig();
 
-        const response = await axios(translateRequestConfig);
-
-        return response.data;
+        return {};
     };
 
     getTranslation = async () => {
@@ -140,7 +98,10 @@ export default class Popup extends React.Component<null, PopupState> {
 
         return (
             <div className={b()}>
-                <Row gutter={24}>
+                <Row
+                    className={b('translate-input')}
+                    gutter={24}
+                >
                     <Col span={20}>
                         <InputWithI18n
                             addonAfter={selectAfter}

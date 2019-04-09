@@ -3,13 +3,13 @@ import * as React from 'react';
 import cn from '../../libs/cn';
 import {TranslationYandexProps} from '../../types';
 
-import './TranslationYandex.scss';
+import './TranslationView.scss';
 
 
-const b = cn('translation-yandex');
+const b = cn('translation-view');
 
 
-function TranslationYandex(props: TranslationYandexProps) {
+function TranslationView(props: TranslationYandexProps) {
     const {
         translation: {
             text = []
@@ -31,4 +31,4 @@ function TranslationYandex(props: TranslationYandexProps) {
     );
 }
 
-export default TranslationYandex;
+export default TranslationView;

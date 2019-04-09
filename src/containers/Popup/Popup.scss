@@ -7,4 +7,8 @@ body {
 .popup {
   width: 350px;
   padding: 10px;
+
+  &__translate-input {
+    height: 100px;
+  }
 }

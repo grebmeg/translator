@@ -4,7 +4,7 @@ import {Spin} from "antd";
 import cn from '../../libs/cn';
 import {TranslationProps} from '../../types';
 
-import TranslationYandex from '../TranslationYandex/TranslationYandex';
+import TranslationView from '../TranslationView/TranslationView';
 
 import './Translation.scss';
 
@@ -24,7 +24,7 @@ function Translation(props: TranslationProps) {
                 isLoading ?
                     (<Spin size="large"/>) :
                     (
-                        <TranslationYandex
+                        <TranslationView
                             translation={translation}
                         />
                     )
