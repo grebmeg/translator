@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {injectIntl, } from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {InputProps} from "../types";
 

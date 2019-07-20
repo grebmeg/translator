@@ -62,7 +62,6 @@ export default class Popup extends React.Component<null, PopupState> {
     };
 
     fetchTranslation = async () => {
-
         return {};
     };
 
